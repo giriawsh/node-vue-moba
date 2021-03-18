@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="element-plus" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/admin/node_modules/element-plus" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/admin/node_modules/element-plus" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
