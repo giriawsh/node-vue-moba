@@ -26,16 +26,7 @@
         </el-dropdown>
         <span>王小虎</span>
       </el-header>
-      <el-main>
-        <el-table :data="tableData">
-          <el-table-column prop="date" label="日期" width="140">
-          </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120">
-          </el-table-column>
-          <el-table-column prop="address" label="地址">
-          </el-table-column>
-        </el-table>
-      </el-main>
+      <router-view></router-view>
     </el-container>
   </el-container>
 </template>
@@ -56,6 +47,10 @@ export default {
 </script>
 
 <style>
+html body {
+  margin: 0;
+  padding: 0;
+}
 .el-header {
   background-color: #B3C0D1;
   color: #333;
