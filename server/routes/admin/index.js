@@ -18,5 +18,11 @@ module.exports = app => {
         const model = await Category.findByIdAndUpdate(req.params.id, req.body);
         res.send(model);
     })
+    router.delete('/categories/:id', async (req, res) => {
+        const model = await Category.findByIdAndDelete(req.params.id, req.body);
+        res.send({
+            success: true
+        });
+    })
     app.use('/admin/api', router);
 }
