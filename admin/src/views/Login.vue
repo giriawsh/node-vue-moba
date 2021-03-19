@@ -23,8 +23,10 @@ export default {
     }
   },
   methods:{
-    login() {
-      console.log(this.model)
+    async login() {
+      // console.log(this.model)
+      const res = await this.$http.post('login', this.model)//得到token
+      console.log(res.data);
     }
   }
 }
