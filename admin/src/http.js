@@ -13,7 +13,6 @@ http.interceptors.response.use(res => {
     //         message: err.response.data.message
     //     });//服务端返回错误代码且有一个message时将其弹出
     // }
-
     return Promise.reject(err);
 })//拦截器
 export default http
