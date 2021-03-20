@@ -1,6 +1,8 @@
 module.exports = app => {
     const express = require('express');
-
+    const AdminUser = require('../../models/AdminUser');
+    const jwt = require('jsonwebtoken');
+    const assert = require('http-assert');
     const router = express.Router({
         mergeParams: true//合并URL参数 要不然无法在${req.params.resource}中获取
     });//子路由

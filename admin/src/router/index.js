@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 import Main from "@/views/Main";
 import CategoryEdit from "@/views/CategoryEdit";
 import CategoryList from "@/views/CategoryList";
@@ -13,104 +13,115 @@ import AdList from "@/views/AdList";
 import AdminUserEdit from "@/views/AdminUserEdit";
 import AdminUserList from "@/views/AdminUserList";
 import Login from "@/views/Login";
-const routes = [
-  {
-    path: '/login',
-    name: 'login',
-    component: Login
-  },
-  {
-    path: '/',
-    name: 'main',
-    component: Main,
-    children: [
-      {
-        path: '/categories/create',
-        component: CategoryEdit
-      },
-      {
-        path: '/categories/list',
-        component: CategoryList
-      },
-      {
-        path: '/categories/edit/:id',
-        component: CategoryEdit,
-        props: true
-      },
 
-      {
-        path: '/items/create',
-        component: ItemEdit
-      },
-      {
-        path: '/items/list',
-        component: ItemList
-      },
-      {
-        path: '/items/edit/:id',
-        component: ItemEdit,
-        props: true
-      },
-      {
-        path: '/heroes/create',
-        component: HeroEdit
-      },
-      {
-        path: '/heroes/list',
-        component: HeroList
-      },
-      {
-        path: '/heroes/edit/:id',
-        component: HeroEdit,
-        props: true
-      },
-      {
-        path: '/articles/create',
-        component: ArticleEdit
-      },
-      {
-        path: '/articles/list',
-        component: ArticleList
-      },
-      {
-        path: '/articles/edit/:id',
-        component: ArticleEdit,
-        props: true
-      },
-      {
-        path: '/ads/create',
-        component: AdEdit
-      },
-      {
-        path: '/ads/list',
-        component: AdList
-      },
-      {
-        path: '/ads/edit/:id',
-        component: AdEdit,
-        props: true
-      },
-      {
-        path: '/admin_users/create',
-        component: AdminUserEdit
-      },
-      {
-        path: '/admin_users/list',
-        component: AdminUserList
-      },
-      {
-        path: '/admin_users/edit/:id',
-        component: AdminUserEdit,
-        props: true
-      }
-    ]
-  },
+const routes = [
+    {
+        path: '/login',
+        name: 'login',
+        component: Login,
+        meta: {isPublic: true}
+    },
+    {
+        path: '/',
+        name: 'main',
+        component: Main,
+        children: [
+            {
+                path: '/categories/create',
+                component: CategoryEdit
+            },
+            {
+                path: '/categories/list',
+                component: CategoryList
+            },
+            {
+                path: '/categories/edit/:id',
+                component: CategoryEdit,
+                props: true
+            },
+
+            {
+                path: '/items/create',
+                component: ItemEdit
+            },
+            {
+                path: '/items/list',
+                component: ItemList
+            },
+            {
+                path: '/items/edit/:id',
+                component: ItemEdit,
+                props: true
+            },
+            {
+                path: '/heroes/create',
+                component: HeroEdit
+            },
+            {
+                path: '/heroes/list',
+                component: HeroList
+            },
+            {
+                path: '/heroes/edit/:id',
+                component: HeroEdit,
+                props: true
+            },
+            {
+                path: '/articles/create',
+                component: ArticleEdit
+            },
+            {
+                path: '/articles/list',
+                component: ArticleList
+            },
+            {
+                path: '/articles/edit/:id',
+                component: ArticleEdit,
+                props: true
+            },
+            {
+                path: '/ads/create',
+                component: AdEdit
+            },
+            {
+                path: '/ads/list',
+                component: AdList
+            },
+            {
+                path: '/ads/edit/:id',
+                component: AdEdit,
+                props: true
+            },
+            {
+                path: '/admin_users/create',
+                component: AdminUserEdit
+            },
+            {
+                path: '/admin_users/list',
+                component: AdminUserList
+            },
+            {
+                path: '/admin_users/edit/:id',
+                component: AdminUserEdit,
+                props: true
+            }
+        ]
+    },
 
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
+    history: createWebHashHistory(),
+    routes
 })
-
+router.beforeEach((to, from, next) => {
+    console.log('to');
+    console.log(to.meta);
+    console.log('from');
+    console.log(from.meta);
+    if (to.meta.isPublic && localStorage.token) {
+        return next('/login');
+    }
+    next();
+});
 export default router
