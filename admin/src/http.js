@@ -17,7 +17,7 @@ http.interceptors.response.use(res => {
 }, err => {
     // console.log(err.response.data.message);
     // if(err.response.data.message){
-    //     app.config.globalProperties.$message({
+    //     res.app.config.globalProperties.$message({
     //         type: 'error',
     //         message: err.response.data.message
     //     });//服务端返回错误代码且有一个message时将其弹出

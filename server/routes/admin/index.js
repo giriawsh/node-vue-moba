@@ -1,8 +1,6 @@
 module.exports = app => {
     const express = require('express');
-    const jwt = require('jsonwebtoken');
-    const AdminUser = require('../../models/AdminUser');
-    const assert = require('http-assert');
+
     const router = express.Router({
         mergeParams: true//合并URL参数 要不然无法在${req.params.resource}中获取
     });//子路由
@@ -12,18 +10,7 @@ module.exports = app => {
         res.send(model);
     })
     //资源列表
-    router.get('/', async (req, res, next)=> {
-        const token = String(req.headers.authorization || '').split(' ').pop();
-        // console.log(token);
-        assert(token, 401, '请先登录');
-        const {id} = jwt.verify(token, app.get('secret'));
-        // console.log(tokenData);
-        assert(id, 401, '请先登录');
-        req.user = await AdminUser.findById(id);
-        assert(req.user, 401, '请先登录')
-        // console.log(req.user);
-        await next();
-    },async (req, res) => {
+    router.get('/', async (req, res) => {
         let queryOptions = {};
         if (req.Model.modelName === 'Category') {
             queryOptions.populate = 'parent';
@@ -48,16 +35,15 @@ module.exports = app => {
             success: true
         });
     })
-    app.use('/admin/api/rest/:resource', async (req, res, next) => {
-        const modelName = require('inflection').classify(req.params.resource);
-        req.Model = require(`../../models/${modelName}`)
-        next();
-    }, router);
+    //登录校验中间件
+    const authMiddleware = require('../../middleware/auth');
+    const resourceMiddleware = require('../../middleware/resource');
+    app.use('/admin/api/rest/:resource', authMiddleware(), resourceMiddleware(), router);
 
 
     const multer = require('multer');
     const upload = multer({dest: __dirname + '/../../uploads'});//上传地址
-    app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
+    app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async (req, res) => {
         const file = req.file;
         file.url = `http://localhost:3000/uploads/${file.filename}`;
         res.send(file);
