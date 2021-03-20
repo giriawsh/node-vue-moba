@@ -1,5 +1,8 @@
 module.exports = app => {
     const express = require('express');
+    const jwt = require('jsonwebtoken');
+    const AdminUser = require('../../models/AdminUser');
+    const assert = require('http-assert');
     const router = express.Router({
         mergeParams: true//合并URL参数 要不然无法在${req.params.resource}中获取
     });//子路由
@@ -10,7 +13,16 @@ module.exports = app => {
     })
     //资源列表
     router.get('/', async (req, res, next)=> {
-
+        const token = String(req.headers.authorization || '').split(' ').pop();
+        // console.log(token);
+        assert(token, 401, '请先登录');
+        const {id} = jwt.verify(token, app.get('secret'));
+        // console.log(tokenData);
+        assert(id, 401, '请先登录');
+        req.user = await AdminUser.findById(id);
+        assert(req.user, 401, '请先登录')
+        // console.log(req.user);
+        await next();
     },async (req, res) => {
         let queryOptions = {};
         if (req.Model.modelName === 'Category') {
@@ -55,27 +67,36 @@ module.exports = app => {
         const {username, password} = req.body;
         // res.send('ok');
         //1. 根据用户名找用户
-        const AdminUser = require('../../models/AdminUser');
         const user = await AdminUser.findOne({
             username: username
         }).select('+password');//把password取出来
-        if (!user) {
-            return res.status(422).send({
-                message: '用户不存在'
-            })
-        }
+        // if (!user) {
+        //     return res.status(422).send({
+        //         message: '用户不存在'
+        //     })
+        // }
+        assert(user, 422, '用户不存在')
         //2. 校验密码
         const isValid = require('bcryptjs').compareSync(password, user.password);
-        if (!isValid) {
-            return res.status(422).send({
-                message: '密码错误'
-            })
-        }
+        // if (!isValid) {
+        //     return res.status(422).send({
+        //         message: '密码错误'
+        //     })
+        // }
+        assert(isValid, 422, '密码错误')
+
         //3. 返回token
-        const jwt = require('jsonwebtoken');
         const token = jwt.sign({
             id: user._id
         }, app.get('secret'));
         res.send({token});
+    })
+
+    //错误处理
+    app.use(async (err, req, res, next) => {
+        // console.log(err);
+        res.status(err.statusCode || 500).send({
+            message: err.message
+        })
     })
 }
