@@ -1,8 +1,143 @@
-.hello {
-  h1 {
-    color: red;
+// reset
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html {
+  font-size: 13px;
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  line-height: 1.2em; //当前字高度的1.2倍
+  background: #f1f1f1;
+}
+
+a {
+  color: #666;
+}
+
+//colors
+$colors: (
+        primary: #db9e3f,
+        "black": #000,
+        "dark": #222,
+        "dark-1": #343440,
+        "grey": #999,
+        "light": #f9f9f9,
+        "white": #fff,
+);
+@each $colorKey, $color in $colors {
+  .text-#{$colorKey} {
+    color: $color;
   }
-  p {
-    color: blue;
+  .bg-#{$colorKey} {
+    background-color: $color;
+  }
+}
+
+//text align
+@each $var in (left, center, right) {
+  .text-#{$var} {
+    text-align: $var;
+  }
+}
+
+//font-size
+$base-font-size: 1rem;
+$font-sizes: (
+        xs: 0.769, //10 px
+        sm: 0.923, //12
+        md: 1, //13
+        lg: 1.077, //14
+        xl: 1.231, //16
+);
+@each $sizeKey, $size in $font-sizes {
+  .fs-#{$sizeKey} {
+    font-size: $size * $base-font-size;
+  }
+}
+
+//flex
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+$flex-jc: (
+        start: flex-start,
+        end: flex-end,
+        center: center,
+        between: space-between,
+        around: space-around,
+);
+@each $key, $value in $flex-jc {
+  .jc-#{$key} {
+    justify-content: $value;
+  }
+}
+
+$flex-ai: (
+        start: flex-start,
+        end: flex-end,
+        center: center,
+        stretch: stretch
+);
+@each $key, $value in $flex-ai {
+  .ai-#{$key} {
+    align-items: $value;
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+//sapcing
+// .mt-1  => margin top level 1
+//.pb-2  => padding bottom level 2
+// .m-0
+$spacing-types: (
+        m: margin,
+        p: padding,
+);
+$spacing-direction: (t: top, r: right, l: left, b: bottom);
+$spacing-base-size: 1rem;
+$spacing-sizes: (0: 0, 1: 0.25, 2: 0.5, 3: 1, 4: 1.5, 5: 3);
+@each $typeKey, $type in $spacing-types {
+  //.mx-1 .my-1
+  @each $sizeKey, $size in $spacing-sizes{
+    .#{$typeKey}x-#{$sizeKey} {
+      #{$type}-left : $size * $spacing-base-size;
+      #{$type}-right : $size * $spacing-base-size;
+    }
+    .#{$typeKey}y-#{$sizeKey} {
+      #{$type}-top : $size * $spacing-base-size;
+      #{$type}-bottom : $size * $spacing-base-size;
+    }
+  }
+  //.m-1
+  @each $sizeKey, $size in $spacing-sizes{
+    .#{$typeKey}-#{$sizeKey} {
+      #{$type} : $size * $spacing-base-size;
+    }
+  }
+  //.mt-1
+  @each $directionKey, $direction in $spacing-direction{
+    @each $sizeKey, $size in $spacing-sizes{
+      // mt-1
+      .#{$typeKey}#{$directionKey}-#{$sizeKey} {
+        #{$type}-#{$direction} : $size * $spacing-base-size;
+      }
+    }
   }
 }
