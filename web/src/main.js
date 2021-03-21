@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-import './style.scss';
+import './assets/scss/style.scss';
 import router from './router'
-createApp(App).use(router).mount('#app')
+// import Swiper from "swiper";
+const app = createApp(App).use(router);
+app.mount('#app')
