@@ -20,6 +20,9 @@ body {
 a {
   color: #666;
 }
+p{
+  line-height: 1.5em;
+}
 
 
 @each $colorKey, $color in $colors {
@@ -30,7 +33,13 @@ a {
     background-color: $color;
   }
 }
-
+//text overflow
+.text-ellipsis{
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 //text align
 @each $var in (left, center, right) {
   .text-#{$var} {
@@ -168,5 +177,12 @@ a {
     width: 0.769rem;
     height: 0.769rem;
     background-position: 38.577% 52.076%;
+  }
+}
+
+//borders
+@each $dir in (top, right, bottom, left){
+  .border-#{$dir} {
+    border-#{$dir}: 1px solid $border-color;
   }
 }

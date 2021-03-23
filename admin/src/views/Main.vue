@@ -67,7 +67,9 @@
         </el-dropdown>
         <span>王小虎</span>
       </el-header>
-      <router-view></router-view>
+      <el-main>
+        <router-view :key="$route.path"></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>

@@ -32,4 +32,4 @@ const Schema = new mongoose.Schema({
     }]//不止选英雄还有描述性文字
 })
 
-module.exports = mongoose.model('Hero', Schema);
+module.exports = mongoose.model('Hero', Schema, 'heroes');
