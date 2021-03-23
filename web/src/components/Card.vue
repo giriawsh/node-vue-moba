@@ -9,14 +9,16 @@
       <slot></slot>
     </div>
   </div>
-
-
 </template>
 
 <script>
 export default {
   name: "Card",
-
+  props: {
+    title: {type: String, required: true},
+    icon: {type: String, required: true},
+    // categories: {type: Array, required: true}
+  }
 }
 </script>
 
