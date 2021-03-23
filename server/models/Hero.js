@@ -4,6 +4,7 @@ const Schema = new mongoose.Schema({
     name: {type: String},
     avatar: {type: String},
     title: {type: String},
+    banner: {type: String},
     categories: [{type: mongoose.SchemaTypes.ObjectId, ref: 'Category'}], //有可能有多个分类
     scores: {
         difficult: {type: Number},
@@ -15,7 +16,9 @@ const Schema = new mongoose.Schema({
         icon: {type: String},
         name: {type: String},
         description: {type: String},
-        tips: {type: String}
+        tips: {type: String},
+        delay: {type: String},
+        cost: {type: String}
     }],
     items1: [{
         type: mongoose.SchemaTypes.ObjectId, ref: 'Item'
